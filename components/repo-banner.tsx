@@ -20,25 +20,9 @@ export function RepoBanner({ className }: { className?: string }) {
         className,
       )}
     >
-      <GitHubIcon className="w-4 h-4" aria-hidden="true" />
-      <Separator
-        orientation="vertical"
-        className="h-6 bg-[hsl(var(--border))]"
-        aria-hidden="true"
-      />
-      <p className="text-sm font-medium text-foreground tracking-wide">
-        Star on GitHub
-      </p>
-      <div
-        className="flex items-center gap-1 text-foreground/80"
-        role="status"
-        aria-live="polite"
-      >
-        <StarFilledIcon
-          className="w-4 h-4 transition-transform group-hover:text-[#e4b340] duration-200 ease-in-out"
-          aria-label="GitHub stars"
-        />
-      </div>
+
+
+
     </a>
   )
 }

@@ -48,7 +48,7 @@ export function NavBar({
     <nav className="w-full flex bg-background py-4">
       <div className="flex flex-1 items-center">
         <Link href="/" className="flex items-center gap-2" target="_blank">
-          <Logo width={24} height={24} />
+          <Logo width={28} height={28} />
         </Link>
       </div>
       <div className="flex items-center gap-1 md:gap-4">
@@ -61,7 +61,7 @@ export function NavBar({
                 onClick={onUndo}
                 disabled={!canUndo}
               >
-                <Undo className="h-4 w-4 md:h-5 md:w-5" />
+                <Undo className="h-5 w-5 md:h-6 md:w-6" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Undo</TooltipContent>
@@ -76,7 +76,7 @@ export function NavBar({
                 onClick={onClear}
                 disabled={!canClear}
               >
-                <Trash className="h-4 w-4 md:h-5 md:w-5" />
+                <Trash className="h-5 w-5 md:h-6 md:w-6" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Clear chat</TooltipContent>
@@ -96,7 +96,7 @@ export function NavBar({
               <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
                   <DropdownMenuTrigger asChild>
-                    <Avatar className="w-8 h-8">
+                    <Avatar className="w-10 h-10">
                       <AvatarImage
                         src={
                           session.user.user_metadata?.avatar_url ||
@@ -123,20 +123,20 @@ export function NavBar({
                   window.open('https://e2b.dev', '_blank')
                 }}
               >
-                <Logo className="mr-2 h-4 w-4 text-muted-foreground" />
+                <Logo className="mr-2 h-5 w-5 text-muted-foreground" />
                 About E2B
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onSocialClick('discord')}>
-                <DiscordLogoIcon className="mr-2 h-4 w-4 text-muted-foreground" />
+                <DiscordLogoIcon className="mr-2 h-5 w-5 text-muted-foreground" />
                 Join us on Discord
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onSocialClick('x')}>
-                <TwitterLogoIcon className="mr-2 h-4 w-4 text-muted-foreground" />
+                <TwitterLogoIcon className="mr-2 h-5 w-5 text-muted-foreground" />
                 Follow us on X
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={signOut}>
-                <LogOut className="mr-2 h-4 w-4 text-muted-foreground" />
+                <LogOut className="mr-2 h-5 w-5 text-muted-foreground" />
                 Sign out
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -144,7 +144,7 @@ export function NavBar({
         ) : (
           <Button variant="default" onClick={showLogin}>
             Sign in
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         )}
       </div>

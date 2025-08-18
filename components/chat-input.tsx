@@ -186,7 +186,7 @@ export function ChatInput({
             autoFocus={true}
             minRows={1}
             maxRows={5}
-            className="text-normal px-3 resize-none ring-0 bg-inherit w-full m-0 outline-none"
+            className="text-base px-4 py-3 resize-none ring-0 bg-inherit w-full m-0 outline-none"
             required={true}
             placeholder="Describe your app..."
             disabled={isErrored}
@@ -213,13 +213,13 @@ export function ChatInput({
                       type="button"
                       variant="outline"
                       size="icon"
-                      className="rounded-xl h-10 w-10"
+                      className="rounded-xl h-12 w-12"
                       onClick={(e) => {
                         e.preventDefault()
                         document.getElementById('multimodal')?.click()
                       }}
                     >
-                      <Paperclip className="h-5 w-5" />
+                      <Paperclip className="h-6 w-6" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>Add attachments</TooltipContent>
@@ -237,9 +237,9 @@ export function ChatInput({
                         variant="default"
                         size="icon"
                         type="submit"
-                        className="rounded-xl h-10 w-10"
+                        className="rounded-xl h-12 w-12"
                       >
-                        <ArrowUp className="h-5 w-5" />
+                        <ArrowUp className="h-6 w-6" />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>Send message</TooltipContent>
@@ -252,13 +252,13 @@ export function ChatInput({
                       <Button
                         variant="secondary"
                         size="icon"
-                        className="rounded-xl h-10 w-10"
+                        className="rounded-xl h-12 w-12"
                         onClick={(e) => {
                           e.preventDefault()
                           stop()
                         }}
                       >
-                        <Square className="h-5 w-5" />
+                        <Square className="h-6 w-6" />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>Stop generation</TooltipContent>
@@ -270,10 +270,7 @@ export function ChatInput({
         </div>
       </div>
       <p className="text-xs text-muted-foreground mt-2 text-center">
-        Fragments is an open-source project made by{' '}
-        <a href="https://e2b.dev" target="_blank" className="text-[#ff8800]">
-          ✶ E2B
-        </a>
+        .                                                       .
       </p>
     </form>
   )
