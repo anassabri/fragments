@@ -10,8 +10,9 @@ import {
 } from '@/components/ui/tooltip'
 import { isFileInArray } from '@/lib/utils'
 import { ArrowUp, Paperclip, Square, X } from 'lucide-react'
-import { SetStateAction, useEffect, useMemo, useState } from 'react'
+import { SetStateAction, useCallback, useEffect, useMemo, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
+import Image from 'next/image'
 
 export function ChatInput({
   retry,
@@ -50,9 +51,9 @@ export function ChatInput({
     })
   }
 
-  function handleFileRemove(file: File) {
+  const handleFileRemove = useCallback((file: File) => {
     handleFileChange((prev) => prev.filter((f) => f !== file))
-  }
+  }, [handleFileChange])
 
   function handlePaste(e: React.ClipboardEvent<HTMLTextAreaElement>) {
     const items = Array.from(e.clipboardData.items)
@@ -116,15 +117,17 @@ export function ChatInput({
           >
             <X className="h-3 w-3 cursor-pointer" />
           </span>
-          <img
+          <Image
             src={URL.createObjectURL(file)}
             alt={file.name}
+            width={40}
+            height={40}
             className="rounded-xl w-10 h-10 object-cover"
           />
         </div>
       )
     })
-  }, [files])
+  }, [files, handleFileRemove])
 
   function onEnter(e: React.KeyboardEvent<HTMLFormElement>) {
     if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
