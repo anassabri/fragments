@@ -50,10 +50,22 @@ export default function Home() {
   const { session, userTeam } = useAuth(setAuthDialog, setAuthView)
 
   const filteredModels = modelsList.models.filter((model) => {
-    return (
-      model.id === 'claude-3-5-sonnet-latest' ||
-      (userTeam && userTeam.tier === 'pro')
-    )
+    // Show all models for pro users
+    if (userTeam && userTeam.tier === 'pro') {
+      return true
+    }
+    // For free users, show a selection of popular models
+    const freeModels = [
+      'claude-3-5-sonnet-latest',
+      'claude-3-5-haiku-latest',
+      'gpt-4o',
+      'gpt-4o-mini',
+      'gemini-1.5-flash-002',
+      'gemini-1.5-pro-002',
+      'mistral-large-latest',
+      'mistral-small-latest'
+    ]
+    return freeModels.includes(model.id)
   })
 
   const currentModel = filteredModels.find(
@@ -286,27 +298,31 @@ export default function Home() {
                 />
               </div>
             </div>
-            <ChatInput
-              retry={() => {}}
-              isErrored={!!errorMessage}
-              errorMessage={errorMessage}
-              isLoading={isLoading}
-              isRateLimited={isRateLimited}
-              stop={stop}
-              input={chatInput}
-              handleInputChange={(e) => setChatInput(e.target.value)}
-              handleSubmit={(e) => {
-                e.preventDefault()
-                handleSubmit(chatInput, files, selectedTemplate, languageModel)
-                setChatInput('')
-                setFiles([])
-              }}
-              isMultiModal={true}
-              files={files}
-              handleFileChange={setFiles}
-            >
-              <div />
-            </ChatInput>
+            <div className="flex justify-center p-4">
+              <div className="w-full max-w-2xl">
+                <ChatInput
+                  retry={() => {}}
+                  isErrored={!!errorMessage}
+                  errorMessage={errorMessage}
+                  isLoading={isLoading}
+                  isRateLimited={isRateLimited}
+                  stop={stop}
+                  input={chatInput}
+                  handleInputChange={(e) => setChatInput(e.target.value)}
+                  handleSubmit={(e) => {
+                    e.preventDefault()
+                    handleSubmit(chatInput, files, selectedTemplate, languageModel)
+                    setChatInput('')
+                    setFiles([])
+                  }}
+                  isMultiModal={true}
+                  files={files}
+                  handleFileChange={setFiles}
+                >
+                  <div />
+                </ChatInput>
+              </div>
+            </div>
           </div>
         </div>
         <Preview
