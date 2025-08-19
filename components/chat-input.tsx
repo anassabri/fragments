@@ -2,11 +2,6 @@
 
 import { RepoBanner } from './repo-banner'
 import { Button } from '@/components/ui/button'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { isFileInArray } from '@/lib/utils'
 import { ArrowUp, Paperclip, Square, X } from 'lucide-react'
 import { SetStateAction, useCallback, useEffect, useMemo, useState } from 'react'

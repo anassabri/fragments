@@ -1,12 +1,12 @@
 import Auth, { ViewType } from './auth'
 import Logo from './logo'
 import { validateEmail } from '@/app/actions/validate-email'
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog'
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogTitle,
+//   DialogDescription,
+// } from '@/components/ui/dialog'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { SupabaseClient } from '@supabase/supabase-js'
 
@@ -21,15 +21,11 @@ export function AuthDialog({
   supabase: SupabaseClient
   view: ViewType
 }) {
+  if (!open) return null
+  
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
-        <VisuallyHidden>
-          <DialogTitle>Sign in to Fragments</DialogTitle>
-          <DialogDescription>
-            Sign in or create an account to access Fragments
-          </DialogDescription>
-        </VisuallyHidden>
+    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center">
+      <div className="bg-background p-6 rounded-lg shadow-lg max-w-lg w-full mx-4">
         <div className="flex justify-center items-center flex-col">
           <h1 className="flex items-center gap-4 text-xl font-bold mb-6 w-full">
             <div className="flex items-center justify-center rounded-md shadow-md bg-black p-2">
@@ -50,7 +46,7 @@ export function AuthDialog({
             />
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   )
 }

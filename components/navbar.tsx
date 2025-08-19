@@ -85,50 +85,31 @@ export function NavBar({
         </Tooltip>
         {session ? (
           <DropdownMenu>
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <DropdownMenuTrigger asChild>
-                  <Avatar className="w-10 h-10">
-                    <AvatarImage
-                      src={
-                        session.user.user_metadata?.avatar_url ||
-                        'https://avatar.vercel.sh/' + session.user.email
-                      }
-                      alt={session.user.email}
-                    />
-                  </Avatar>
-                </DropdownMenuTrigger>
-              </TooltipTrigger>
-              <TooltipContent>My Account</TooltipContent>
-            </Tooltip>
-            <DropdownMenuContent className="w-56" align="end">
-              <DropdownMenuLabel className="flex flex-col">
-                <span className="text-sm">My Account</span>
-                <span className="text-xs text-muted-foreground">
-                  {session.user.email}
-                </span>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage
+                    src={session.user.user_metadata.avatar_url}
+                    alt={session.user.email ?? ''}
+                  />
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end" forceMount>
+              <DropdownMenuLabel className="font-normal">
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium leading-none">
+                    {session.user.user_metadata.full_name}
+                  </p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    {session.user.email}
+                  </p>
+                </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => {
-                  window.open('https://e2b.dev', '_blank')
-                }}
-              >
-                <Logo className="mr-2 h-5 w-5 text-muted-foreground" />
-                About E2B
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onSocialClick('discord')}>
-                <DiscordLogoIcon className="mr-2 h-5 w-5 text-muted-foreground" />
-                Join us on Discord
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onSocialClick('x')}>
-                <TwitterLogoIcon className="mr-2 h-5 w-5 text-muted-foreground" />
-                Follow us on X
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={signOut}>
-                <LogOut className="mr-2 h-5 w-5 text-muted-foreground" />
-                Sign out
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
