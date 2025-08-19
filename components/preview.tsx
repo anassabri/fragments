@@ -42,7 +42,7 @@ export function Preview({
   const isLinkAvailable = result?.template !== 'code-interpreter-v1'
 
   return (
-    <div className="absolute md:relative z-10 top-0 left-0 shadow-2xl md:rounded-tl-3xl md:rounded-bl-3xl md:border-l md:border-y bg-popover h-full w-full overflow-auto">
+    <div className="absolute md:relative z-10 top-0 left-0 shadow-xl md:rounded-tl-2xl md:rounded-bl-2xl md:border-l md:border-y bg-background h-full w-full overflow-auto">
       <Tabs
         value={selectedTab}
         onValueChange={(value) =>
@@ -50,7 +50,7 @@ export function Preview({
         }
         className="h-full flex flex-col items-start justify-start"
       >
-        <div className="w-full p-2 grid grid-cols-3 items-center border-b">
+        <div className="w-full p-3 grid grid-cols-3 items-center border-b bg-muted/30">
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
               <Button
@@ -65,9 +65,9 @@ export function Preview({
             <TooltipContent>Close sidebar</TooltipContent>
           </Tooltip>
           <div className="flex justify-center">
-            <TabsList className="px-1 py-0 border h-8">
+            <TabsList className="px-1 py-0 border h-9 bg-background">
               <TabsTrigger
-                className="font-normal text-xs py-1 px-2 gap-1 flex items-center"
+                className="font-medium text-xs py-1.5 px-3 gap-1 flex items-center"
                 value="code"
               >
                 {isChatLoading && (
@@ -80,7 +80,7 @@ export function Preview({
               </TabsTrigger>
               <TabsTrigger
                 disabled={!result}
-                className="font-normal text-xs py-1 px-2 gap-1 flex items-center"
+                className="font-medium text-xs py-1.5 px-3 gap-1 flex items-center"
                 value="fragment"
               >
                 Preview

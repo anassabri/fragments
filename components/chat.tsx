@@ -30,11 +30,11 @@ export function Chat({
   return (
     <div
       id="chat-container"
-      className="flex flex-col pb-12 gap-2 overflow-y-auto max-h-full"
+      className="flex flex-col pb-12 gap-4 overflow-y-auto max-h-full px-2"
     >
       {messages.map((message: Message, index: number) => (
         <div
-          className={`flex flex-col px-4 shadow-sm whitespace-pre-wrap ${message.role !== 'user' ? 'bg-accent dark:bg-white/5 border text-accent-foreground dark:text-muted-foreground py-4 rounded-2xl gap-4 w-full' : 'bg-gradient-to-b from-black/5 to-black/10 dark:from-black/30 dark:to-black/50 py-2 rounded-xl gap-2 w-fit'} font-serif`}
+          className={`flex flex-col shadow-sm whitespace-pre-wrap ${message.role !== 'user' ? 'bg-accent dark:bg-white/5 border text-accent-foreground dark:text-muted-foreground py-6 px-6 rounded-2xl gap-4 w-full' : 'bg-gradient-to-b from-black/5 to-black/10 dark:from-black/30 dark:to-black/50 py-3 px-4 rounded-xl gap-2 w-fit ml-auto max-w-[80%]'} font-sans`}
           key={index}
         >
           {message.content.map((content, id) => {
@@ -62,17 +62,17 @@ export function Chat({
                   result: message.result,
                 })
               }
-              className="py-2 pl-2 w-full md:w-max flex items-center border rounded-xl select-none hover:bg-white dark:hover:bg-white/5 hover:cursor-pointer"
+              className="py-3 px-3 w-full md:w-max flex items-center border border-orange-200 dark:border-orange-800 rounded-xl select-none hover:bg-orange-50 dark:hover:bg-orange-900/20 hover:cursor-pointer transition-colors"
             >
-              <div className="rounded-[0.5rem] w-10 h-10 bg-black/5 dark:bg-white/5 self-stretch flex items-center justify-center">
-                <Terminal strokeWidth={2} className="text-[#FF8800]" />
+              <div className="rounded-lg w-12 h-12 bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
+                <Terminal strokeWidth={2} className="text-orange-600 dark:text-orange-400 w-5 h-5" />
               </div>
-              <div className="pl-2 pr-4 flex flex-col">
-                <span className="font-bold font-sans text-sm text-primary">
+              <div className="pl-3 pr-4 flex flex-col">
+                <span className="font-semibold text-sm text-primary">
                   {message.object.title}
                 </span>
-                <span className="font-sans text-sm text-muted-foreground">
-                  Click to see fragment
+                <span className="text-xs text-muted-foreground">
+                  Click to preview fragment
                 </span>
               </div>
             </div>

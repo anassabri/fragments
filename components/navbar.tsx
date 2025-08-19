@@ -44,13 +44,29 @@ export function NavBar({
   canUndo: boolean
 }) {
   return (
-    <nav className="w-full flex bg-background py-4">
+    <nav className="w-full flex bg-background py-4 px-6 border-b">
       <div className="flex flex-1 items-center">
-        <Link href="/" className="flex items-center gap-2" target="_blank">
-          <Logo width={28} height={28} />
+        <Link href="/" className="flex items-center gap-3">
+          <Logo width={32} height={32} />
+          <div className="flex items-center gap-1">
+            <span className="text-xl font-semibold">Fragments</span>
+            <span className="text-sm text-muted-foreground">by</span>
+            <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">E2B</span>
+          </div>
         </Link>
       </div>
       <div className="flex items-center gap-1 md:gap-4">
+        <Link 
+          href="Build App" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="hidden md:flex"
+        >
+          <Button variant="outline" size="sm" className="gap-2">
+            <GitHubLogoIcon className="h-4 w-4" />
+            
+          </Button>
+        </Link>
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
             <Button

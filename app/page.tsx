@@ -252,7 +252,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex h-screen flex-col bg-background max-w-7xl mx-auto">
+    <main className="flex h-screen flex-col bg-background">
       <NavBar
         session={session}
         showLogin={() => setAuthDialog(true)}
@@ -285,78 +285,86 @@ export default function Home() {
         }}
         canUndo={messages.length > 0}
       />
-      <div className="flex flex-1 overflow-hidden">
-        <div className="flex w-1/2 flex-col">
-          <div className="flex-1 overflow-hidden">
-            <Chat
-              messages={messages}
-              isLoading={isLoading}
-              setCurrentPreview={(preview) => {
-                setFragment(preview.fragment)
-                setResult(preview.result)
-              }}
-            />
-          </div>
-          <div className="border-t">
-            <div className="flex items-center justify-between border-b p-2">
-              <div className="flex items-center gap-2">
-                <ChatPicker
-                  templates={templates}
-                  selectedTemplate={selectedTemplate}
-                  onSelectedTemplateChange={setSelectedTemplate}
-                  models={filteredModels}
-                  languageModel={languageModel}
-                  onLanguageModelChange={setLanguageModel}
-                />
-                <ChatSettings
-                  apiKeyConfigurable={true}
-                  baseURLConfigurable={true}
-                  languageModel={languageModel}
-                  onLanguageModelChange={setLanguageModel}
-                />
-              </div>
-            </div>
-            <div className="flex justify-center p-4">
-              <div className="w-full max-w-2xl">
-                <ChatInput
-                  retry={() => {}}
-                  isErrored={!!errorMessage}
-                  errorMessage={errorMessage}
+      <div className="flex flex-1 overflow-hidden max-w-7xl mx-auto w-full">
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <div className="flex flex-1 overflow-hidden">
+            <div className={`flex flex-col ${(fragment || result) ? 'w-1/2' : 'w-full'}`}>
+              <div className="flex-1 overflow-hidden px-4">
+                <Chat
+                  messages={messages}
                   isLoading={isLoading}
-                  isRateLimited={isRateLimited}
-                  stop={stop}
-                  input={chatInput}
-                  handleInputChange={(e) => setChatInput(e.target.value)}
-                  handleSubmit={(e) => {
-                    e.preventDefault()
-                    handleSubmit(chatInput, files, selectedTemplate, languageModel)
-                    setChatInput('')
-                    setFiles([])
+                  setCurrentPreview={(preview) => {
+                    setFragment(preview.fragment)
+                    setResult(preview.result)
                   }}
-                  isMultiModal={true}
-                  files={files}
-                  handleFileChange={setFiles}
-                >
-                  <div />
-                </ChatInput>
+                />
+              </div>
+              <div className="border-t">
+                <div className="flex items-center justify-between border-b p-2">
+                  <div className="flex items-center gap-2">
+                    <ChatPicker
+                      templates={templates}
+                      selectedTemplate={selectedTemplate}
+                      onSelectedTemplateChange={setSelectedTemplate}
+                      models={filteredModels}
+                      languageModel={languageModel}
+                      onLanguageModelChange={setLanguageModel}
+                    />
+                    <ChatSettings
+                      apiKeyConfigurable={true}
+                      baseURLConfigurable={true}
+                      languageModel={languageModel}
+                      onLanguageModelChange={setLanguageModel}
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-center p-4">
+                  <div className="w-full max-w-2xl">
+                    <ChatInput
+                      retry={() => {}}
+                      isErrored={!!errorMessage}
+                      errorMessage={errorMessage}
+                      isLoading={isLoading}
+                      isRateLimited={isRateLimited}
+                      stop={stop}
+                      input={chatInput}
+                      handleInputChange={(e) => setChatInput(e.target.value)}
+                      handleSubmit={(e) => {
+                        e.preventDefault()
+                        handleSubmit(chatInput, files, selectedTemplate, languageModel)
+                        setChatInput('')
+                        setFiles([])
+                      }}
+                      isMultiModal={true}
+                      files={files}
+                      handleFileChange={setFiles}
+                    >
+                      <div />
+                    </ChatInput>
+                  </div>
+                </div>
               </div>
             </div>
+            {(fragment || result) && (
+              <div className="flex w-1/2 flex-col border-l">
+                <Preview
+                  teamID={session?.user?.user_metadata?.team_id}
+                  accessToken={session?.access_token}
+                  selectedTab={selectedTab}
+                  onSelectedTabChange={setSelectedTab}
+                  isChatLoading={isLoading}
+                  isPreviewLoading={isLoading}
+                  fragment={fragment}
+                  result={result}
+                  onClose={() => {
+                    setFragment(undefined)
+                    setResult(undefined)
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>
-        <Preview
-          teamID={session?.user?.user_metadata?.team_id}
-          accessToken={session?.access_token}
-          selectedTab={selectedTab}
-          onSelectedTabChange={setSelectedTab}
-          isChatLoading={isLoading}
-          isPreviewLoading={isLoading}
-          fragment={fragment}
-          result={result}
-          onClose={() => {
-            setFragment(undefined)
-            setResult(undefined)
-          }}
-        />
       </div>
       {supabase && (
         <AuthDialog
@@ -366,6 +374,21 @@ export default function Home() {
           view={authView}
         />
       )}
+      <footer className="border-t bg-muted/30 py-4 px-6">
+        <div className="max-w-7xl mx-auto flex items-center justify-center">
+          <p className="text-sm text-muted-foreground">
+            Powered by{" "}
+            <a
+              href=""
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-primary hover:underline"
+            >
+              E2B
+            </a>
+          </p>
+        </div>
+      </footer>
     </main>
   )
 }
