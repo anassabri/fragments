@@ -85,14 +85,14 @@ export default function Home() {
   const useObjectConfig = useMemo(() => ({
     api: '/api/chat',
     schema,
-    onError: (error) => {
+    onError: (error: Error) => {
       console.error('useObject error:', error)
       if (error.message.includes('Rate limit')) {
         setIsRateLimited(true)
       }
       setErrorMessage(error.message)
     },
-    onFinish: async ({ object: fragment, error }) => {
+    onFinish: async ({ object: fragment, error }: { object: any; error: Error | undefined }) => {
       if (error) {
         console.error('onFinish error:', error)
         return
