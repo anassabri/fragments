@@ -40,6 +40,7 @@ export default function Home() {
   const [result, setResult] = useState<ExecutionResult>()
   const [messages, setMessages] = useState<Message[]>([])
   const [fragment, setFragment] = useState<DeepPartial<FragmentSchema>>()
+  const [lastProcessedFragment, setLastProcessedFragment] = useState<DeepPartial<FragmentSchema>>()
   const [currentTab, setCurrentTab] = useState<'code' | 'fragment'>('code')
   const [selectedTab, setSelectedTab] = useState<'code' | 'fragment'>('code')
   const [isPreviewLoading, setIsPreviewLoading] = useState(false)
@@ -90,8 +91,9 @@ export default function Home() {
       setErrorMessage(error.message)
     },
     onFinish: async ({ object: fragment, error }) => {
-      if (!error && fragment) {
+      if (!error && fragment && JSON.stringify(fragment) !== JSON.stringify(lastProcessedFragment)) {
         setFragment(fragment)
+        setLastProcessedFragment(fragment)
         setCurrentTab('fragment')
         setIsPreviewLoading(true)
 
@@ -153,7 +155,8 @@ export default function Home() {
   )
 
   useEffect(() => {
-    if (object?.code && lastMessage?.role === 'assistant') {
+    if (object?.code && lastMessage?.role === 'assistant' && 
+        (!lastMessage.object || JSON.stringify(lastMessage.object) !== JSON.stringify(object))) {
       setMessage(
         {
           content: [
