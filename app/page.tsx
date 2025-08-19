@@ -91,44 +91,54 @@ export default function Home() {
       setErrorMessage(error.message)
     },
     onFinish: async ({ object: fragment, error }) => {
-      if (!error && fragment && JSON.stringify(fragment) !== JSON.stringify(lastProcessedFragment)) {
-        setFragment(fragment)
-        setLastProcessedFragment(fragment)
-        setCurrentTab('fragment')
-        setIsPreviewLoading(true)
+      if (!error && fragment) {
+        const fragmentString = JSON.stringify(fragment)
+        const lastProcessedString = lastProcessedFragment ? JSON.stringify(lastProcessedFragment) : null
+        
+        console.log('onFinish called:', { fragmentString: fragmentString.substring(0, 100), lastProcessedString: lastProcessedString?.substring(0, 100) })
+        
+        if (fragmentString !== lastProcessedString) {
+          console.log('Processing new fragment')
+          setFragment(fragment)
+          setLastProcessedFragment(fragment)
+          setCurrentTab('fragment')
+          setIsPreviewLoading(true)
 
-        try {
-          const response = await fetch('/api/sandbox', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              fragment,
-              userID: session?.user?.id || 'anonymous',
-            }),
-          })
+          try {
+            const response = await fetch('/api/sandbox', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                fragment,
+                userID: session?.user?.id || 'anonymous',
+              }),
+            })
 
-          if (response.ok) {
-            const result = await response.json()
-            setResult(result)
+            if (response.ok) {
+              const result = await response.json()
+              setResult(result)
+            }
+          } catch (error) {
+            console.error('Error running code:', error)
+          } finally {
+            setIsPreviewLoading(false)
           }
-        } catch (error) {
-          console.error('Error running code:', error)
-        } finally {
-          setIsPreviewLoading(false)
+
+          const content: Array<MessageText | MessageCode | MessageImage> = [
+            { type: 'text' as const, text: fragment?.commentary || '' },
+            { type: 'code' as const, text: object?.code || '' },
+          ]
+
+          if (!lastMessage || lastMessage.role !== 'assistant') {
+            addMessage({
+              role: 'assistant',
+              content,
+              object,
+            })
+          }
+        } else {
+          console.log('Skipping duplicate fragment')
         }
-      }
-
-      const content: Array<MessageText | MessageCode | MessageImage> = [
-        { type: 'text' as const, text: fragment?.commentary || '' },
-        { type: 'code' as const, text: object?.code || '' },
-      ]
-
-      if (!lastMessage || lastMessage.role !== 'assistant') {
-        addMessage({
-          role: 'assistant',
-          content,
-          object,
-        })
       }
     },
   })
@@ -154,21 +164,8 @@ export default function Home() {
     [],
   )
 
-  useEffect(() => {
-    if (object?.code && lastMessage?.role === 'assistant' && 
-        (!lastMessage.object || JSON.stringify(lastMessage.object) !== JSON.stringify(object))) {
-      setMessage(
-        {
-          content: [
-            { type: 'text', text: object.commentary || '' },
-            { type: 'code', text: object.code },
-          ],
-          object,
-        },
-        messages.length - 1,
-      )
-    }
-  }, [object, lastMessage, setMessage])
+  // Removed useEffect that was causing circular dependency
+  // Message updates are now handled in the onFinish callback
 
   const handleSubmitAuth = async (supabaseAccessToken: string) => {
     const response = await fetch('/api/auth', {
