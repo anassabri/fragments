@@ -31,7 +31,7 @@ export default function Home() {
   const [languageModel, setLanguageModel] = useLocalStorage<LLMModelConfig>(
     'languageModel',
     {
-      model: 'claude-3-5-sonnet-latest',
+      model: 'models/gemini-2.5-flash-preview-05-20',
     },
   )
 
@@ -55,16 +55,19 @@ export default function Home() {
       return true
     }
     // For free users, show a selection of popular models
-    const freeModels = [
-      'claude-3-5-sonnet-latest',
-      'claude-3-5-haiku-latest',
-      'gpt-4o',
-      'gpt-4o-mini',
-      'gemini-1.5-flash-002',
-      'gemini-1.5-pro-002',
-      'mistral-large-latest',
-      'mistral-small-latest'
-    ]
+     const freeModels = [
+       'claude-3-5-sonnet-latest',
+       'claude-3-5-haiku-latest',
+       'gpt-4o',
+       'gpt-4o-mini',
+       'models/gemini-2.5-flash-preview-05-20',
+       'models/gemini-2.5-pro-preview-05-06',
+       'models/gemini-2.0-flash',
+       'models/gemini-1.5-pro',
+       'models/gemini-1.5-flash',
+       'mistral-large-latest',
+       'mistral-small-latest'
+     ]
     return freeModels.includes(model.id)
   })
 
@@ -162,7 +165,7 @@ export default function Home() {
         messages.length - 1,
       )
     }
-  }, [object, lastMessage, setMessage, messages.length])
+  }, [object, lastMessage, setMessage])
 
   const handleSubmitAuth = async (supabaseAccessToken: string) => {
     const response = await fetch('/api/auth', {
@@ -226,10 +229,8 @@ export default function Home() {
     submit({
       messages: toAISDKMessages(newMessages),
       template: currentTemplate,
-      model,
-      config: {
-        provider: currentModel?.provider,
-      },
+      model: currentModel,
+      config: model,
     })
   }
 

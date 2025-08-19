@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { isFileInArray } from '@/lib/utils'
@@ -208,65 +207,44 @@ export function ChatInput({
               onChange={handleFileInput}
             />
             <div className="flex items-center flex-1 gap-2">
-              <TooltipProvider>
-                <Tooltip delayDuration={0}>
-                  <TooltipTrigger asChild>
-                    <Button
-                      disabled={!isMultiModal || isErrored}
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      className="rounded-xl h-12 w-12"
-                      onClick={(e) => {
-                        e.preventDefault()
-                        document.getElementById('multimodal')?.click()
-                      }}
-                    >
-                      <Paperclip className="h-6 w-6" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Add attachments</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <Button
+                disabled={!isMultiModal || isErrored}
+                type="button"
+                variant="outline"
+                size="icon"
+                className="rounded-xl h-12 w-12"
+                onClick={(e) => {
+                  e.preventDefault()
+                  document.getElementById('multimodal')?.click()
+                }}
+              >
+                <Paperclip className="h-6 w-6" />
+              </Button>
               {files.length > 0 && filePreview}
             </div>
             <div>
               {!isLoading ? (
-                <TooltipProvider>
-                  <Tooltip delayDuration={0}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        disabled={isErrored}
-                        variant="default"
-                        size="icon"
-                        type="submit"
-                        className="rounded-xl h-12 w-12"
-                      >
-                        <ArrowUp className="h-6 w-6" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Send message</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Button
+                  disabled={isErrored}
+                  variant="default"
+                  size="icon"
+                  type="submit"
+                  className="rounded-xl h-12 w-12"
+                >
+                  <ArrowUp className="h-6 w-6" />
+                </Button>
               ) : (
-                <TooltipProvider>
-                  <Tooltip delayDuration={0}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="secondary"
-                        size="icon"
-                        className="rounded-xl h-12 w-12"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          stop()
-                        }}
-                      >
-                        <Square className="h-6 w-6" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Stop generation</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="rounded-xl h-12 w-12"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    stop()
+                  }}
+                >
+                  <Square className="h-6 w-6" />
+                </Button>
               )}
             </div>
           </div>

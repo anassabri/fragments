@@ -6,7 +6,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { FragmentSchema } from '@/lib/schema'
@@ -52,21 +51,19 @@ export function Preview({
         className="h-full flex flex-col items-start justify-start"
       >
         <div className="w-full p-2 grid grid-cols-3 items-center border-b">
-          <TooltipProvider>
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-muted-foreground"
-                  onClick={onClose}
-                >
-                  <ChevronsRight className="h-5 w-5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Close sidebar</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip delayDuration={0}>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-muted-foreground"
+                onClick={onClose}
+              >
+                <ChevronsRight className="h-5 w-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Close sidebar</TooltipContent>
+          </Tooltip>
           <div className="flex justify-center">
             <TabsList className="px-1 py-0 border h-8">
               <TabsTrigger

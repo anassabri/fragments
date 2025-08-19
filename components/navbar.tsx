@@ -13,7 +13,6 @@ import { ThemeToggle } from '@/components/ui/theme-toggle'
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import {
@@ -52,64 +51,56 @@ export function NavBar({
         </Link>
       </div>
       <div className="flex items-center gap-1 md:gap-4">
-        <TooltipProvider>
-          <Tooltip delayDuration={0}>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={onUndo}
-                disabled={!canUndo}
-              >
-                <Undo className="h-5 w-5 md:h-6 md:w-6" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Undo</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        <TooltipProvider>
-          <Tooltip delayDuration={0}>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={onClear}
-                disabled={!canClear}
-              >
-                <Trash className="h-5 w-5 md:h-6 md:w-6" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Clear chat</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        <TooltipProvider>
-          <Tooltip delayDuration={0}>
-            <TooltipTrigger asChild>
-              <ThemeToggle />
-            </TooltipTrigger>
-            <TooltipContent>Toggle theme</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onUndo}
+              disabled={!canUndo}
+            >
+              <Undo className="h-5 w-5 md:h-6 md:w-6" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Undo</TooltipContent>
+        </Tooltip>
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClear}
+              disabled={!canClear}
+            >
+              <Trash className="h-5 w-5 md:h-6 md:w-6" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Clear chat</TooltipContent>
+        </Tooltip>
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <ThemeToggle />
+          </TooltipTrigger>
+          <TooltipContent>Toggle theme</TooltipContent>
+        </Tooltip>
         {session ? (
           <DropdownMenu>
-            <TooltipProvider>
-              <Tooltip delayDuration={0}>
-                <TooltipTrigger asChild>
-                  <DropdownMenuTrigger asChild>
-                    <Avatar className="w-10 h-10">
-                      <AvatarImage
-                        src={
-                          session.user.user_metadata?.avatar_url ||
-                          'https://avatar.vercel.sh/' + session.user.email
-                        }
-                        alt={session.user.email}
-                      />
-                    </Avatar>
-                  </DropdownMenuTrigger>
-                </TooltipTrigger>
-                <TooltipContent>My Account</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger asChild>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="w-10 h-10">
+                    <AvatarImage
+                      src={
+                        session.user.user_metadata?.avatar_url ||
+                        'https://avatar.vercel.sh/' + session.user.email
+                      }
+                      alt={session.user.email}
+                    />
+                  </Avatar>
+                </DropdownMenuTrigger>
+              </TooltipTrigger>
+              <TooltipContent>My Account</TooltipContent>
+            </Tooltip>
             <DropdownMenuContent className="w-56" align="end">
               <DropdownMenuLabel className="flex flex-col">
                 <span className="text-sm">My Account</span>

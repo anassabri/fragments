@@ -4,7 +4,6 @@ import { CopyButton } from './ui/copy-button'
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Download, FileText } from 'lucide-react'
@@ -51,34 +50,30 @@ export function FragmentCode({
           ))}
         </div>
         <div className="flex items-center gap-2">
-          <TooltipProvider>
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <CopyButton
-                  content={currentFileContent || ''}
-                  className="text-muted-foreground"
-                />
-              </TooltipTrigger>
-              <TooltipContent side="bottom">Copy</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <TooltipProvider>
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-muted-foreground"
-                  onClick={() =>
-                    download(currentFile, currentFileContent || '')
-                  }
-                >
-                  <Download className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">Download</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip delayDuration={0}>
+            <TooltipTrigger asChild>
+              <CopyButton
+                content={currentFileContent || ''}
+                className="text-muted-foreground"
+              />
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Copy</TooltipContent>
+          </Tooltip>
+          <Tooltip delayDuration={0}>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-muted-foreground"
+                onClick={() =>
+                  download(currentFile, currentFileContent || '')
+                }
+              >
+                <Download className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Download</TooltipContent>
+          </Tooltip>
         </div>
       </div>
       <div className="flex flex-col flex-1 overflow-x-auto">
