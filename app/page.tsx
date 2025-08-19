@@ -222,7 +222,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex h-screen flex-col bg-background">
+    <main className="flex h-screen flex-col bg-background max-w-7xl mx-auto">
       <NavBar
         session={session}
         showLogin={() => setAuthDialog(true)}
@@ -257,24 +257,6 @@ export default function Home() {
       />
       <div className="flex flex-1 overflow-hidden">
         <div className="flex w-1/2 flex-col">
-          <div className="flex items-center justify-between border-b p-4">
-            <div className="flex items-center gap-2">
-              <ChatPicker
-                templates={templates}
-                selectedTemplate={selectedTemplate}
-                onSelectedTemplateChange={setSelectedTemplate}
-                models={filteredModels}
-                languageModel={languageModel}
-                onLanguageModelChange={setLanguageModel}
-              />
-              <ChatSettings
-                apiKeyConfigurable={true}
-                baseURLConfigurable={true}
-                languageModel={languageModel}
-                onLanguageModelChange={setLanguageModel}
-              />
-            </div>
-          </div>
           <div className="flex-1 overflow-hidden">
             <Chat
               messages={messages}
@@ -286,6 +268,24 @@ export default function Home() {
             />
           </div>
           <div className="border-t">
+            <div className="flex items-center justify-between border-b p-2">
+              <div className="flex items-center gap-2">
+                <ChatPicker
+                  templates={templates}
+                  selectedTemplate={selectedTemplate}
+                  onSelectedTemplateChange={setSelectedTemplate}
+                  models={filteredModels}
+                  languageModel={languageModel}
+                  onLanguageModelChange={setLanguageModel}
+                />
+                <ChatSettings
+                  apiKeyConfigurable={true}
+                  baseURLConfigurable={true}
+                  languageModel={languageModel}
+                  onLanguageModelChange={setLanguageModel}
+                />
+              </div>
+            </div>
             <ChatInput
               retry={() => {}}
               isErrored={!!errorMessage}
