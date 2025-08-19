@@ -9,7 +9,7 @@ import { ChatSettings } from '@/components/chat-settings'
 import { NavBar } from '@/components/navbar'
 import { Preview } from '@/components/preview'
 import { useAuth } from '@/lib/auth'
-import { Message, toAISDKMessages, toMessageImage } from '@/lib/messages'
+import { Message, MessageText, MessageCode, MessageImage, toAISDKMessages, toMessageImage } from '@/lib/messages'
 import { LLMModelConfig } from '@/lib/models'
 import modelsList from '@/lib/models.json'
 import { FragmentSchema, fragmentSchema as schema } from '@/lib/schema'
@@ -101,9 +101,9 @@ export default function Home() {
         }
       }
 
-      const content = [
-        { type: 'text', text: fragment?.commentary || '' },
-        { type: 'code', text: object.code || '' },
+      const content: Array<MessageText | MessageCode | MessageImage> = [
+        { type: 'text' as const, text: fragment?.commentary || '' },
+        { type: 'code' as const, text: object?.code || '' },
       ]
 
       if (!lastMessage || lastMessage.role !== 'assistant') {
@@ -129,8 +129,10 @@ export default function Home() {
 
   const addMessage = useCallback(
     (message: Message) => {
-      setMessages((previousMessages) => [...previousMessages, message])
-      return previousMessages.length
+      setMessages((previousMessages) => {
+        const newMessages = [...previousMessages, message]
+        return newMessages
+      })
     },
     [],
   )
@@ -187,11 +189,11 @@ export default function Home() {
 
     if (currentFiles.length > 0) {
       const imageContent = await Promise.all(
-        currentFiles.map(async (file) => {
-          const { image, text } = await toMessageImage(file)
-          return { type: 'image' as const, image, text }
-        }),
-      )
+          currentFiles.map(async (file) => {
+            const images = await toMessageImage([file])
+            return { type: 'image' as const, image: images[0] }
+          }),
+        )
       content.push(...imageContent)
     }
 
@@ -225,9 +227,33 @@ export default function Home() {
         session={session}
         showLogin={() => setAuthDialog(true)}
         signOut={async () => {
-          await supabase.auth.signOut()
-          window.location.reload()
+          if (supabase) {
+            await supabase.auth.signOut()
+            window.location.reload()
+          }
         }}
+        onClear={() => {
+          setMessages([])
+          setFragment(undefined)
+          setResult(undefined)
+          setChatInput('')
+          setFiles([])
+        }}
+        canClear={messages.length > 0}
+        onSocialClick={(target) => {
+          const urls = {
+            github: 'https://github.com',
+            x: 'https://x.com',
+            discord: 'https://discord.com'
+          }
+          window.open(urls[target], '_blank')
+        }}
+        onUndo={() => {
+          if (messages.length > 0) {
+            setMessages(messages.slice(0, -1))
+          }
+        }}
+        canUndo={messages.length > 0}
       />
       <div className="flex flex-1 overflow-hidden">
         <div className="flex w-1/2 flex-col">
@@ -237,11 +263,15 @@ export default function Home() {
                 templates={templates}
                 selectedTemplate={selectedTemplate}
                 onSelectedTemplateChange={setSelectedTemplate}
-              />
-              <ChatSettings
+                models={filteredModels}
                 languageModel={languageModel}
                 onLanguageModelChange={setLanguageModel}
-                models={filteredModels}
+              />
+              <ChatSettings
+                apiKeyConfigurable={true}
+                baseURLConfigurable={true}
+                languageModel={languageModel}
+                onLanguageModelChange={setLanguageModel}
               />
             </div>
           </div>
