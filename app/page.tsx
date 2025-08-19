@@ -19,7 +19,7 @@ import { ExecutionResult } from '@/lib/types'
 import { DeepPartial } from 'ai'
 import { experimental_useObject as useObject } from 'ai/react'
 import { usePostHog } from 'posthog-js/react'
-import { SetStateAction, useCallback, useEffect, useState } from 'react'
+import { SetStateAction, useCallback, useEffect, useState, useMemo } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 
 export default function Home() {
@@ -81,67 +81,84 @@ export default function Home() {
       : { [selectedTemplate]: templates[selectedTemplate] }
   const lastMessage = messages[messages.length - 1]
 
-  const { object, submit, isLoading, stop, error } = useObject({
+  // Stable useObject configuration with comprehensive error handling
+  const useObjectConfig = useMemo(() => ({
     api: '/api/chat',
     schema,
     onError: (error) => {
+      console.error('useObject error:', error)
       if (error.message.includes('Rate limit')) {
         setIsRateLimited(true)
       }
       setErrorMessage(error.message)
     },
     onFinish: async ({ object: fragment, error }) => {
-      if (!error && fragment) {
+      if (error) {
+        console.error('onFinish error:', error)
+        return
+      }
+      
+      if (!fragment) {
+        console.log('onFinish: No fragment received')
+        return
+      }
+
+      try {
         const fragmentString = JSON.stringify(fragment)
         const lastProcessedString = lastProcessedFragment ? JSON.stringify(lastProcessedFragment) : null
         
-        console.log('onFinish called:', { fragmentString: fragmentString.substring(0, 100), lastProcessedString: lastProcessedString?.substring(0, 100) })
-        
-        if (fragmentString !== lastProcessedString) {
-          console.log('Processing new fragment')
-          setFragment(fragment)
-          setLastProcessedFragment(fragment)
-          setCurrentTab('fragment')
-          setIsPreviewLoading(true)
+        // Skip if this is the same fragment we just processed
+        if (fragmentString === lastProcessedString) {
+          console.log('onFinish: Skipping duplicate fragment')
+          return
+        }
 
-          try {
-            const response = await fetch('/api/sandbox', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                fragment,
-                userID: session?.user?.id || 'anonymous',
-              }),
-            })
+        console.log('onFinish: Processing new fragment')
+        setFragment(fragment)
+        setLastProcessedFragment(fragment)
+        setCurrentTab('fragment')
+        setIsPreviewLoading(true)
 
-            if (response.ok) {
-              const result = await response.json()
-              setResult(result)
-            }
-          } catch (error) {
-            console.error('Error running code:', error)
-          } finally {
-            setIsPreviewLoading(false)
-          }
+        // Execute sandbox API call
+        const response = await fetch('/api/sandbox', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fragment,
+            userID: session?.user?.id || 'anonymous',
+          }),
+        })
 
+        if (response.ok) {
+          const result = await response.json()
+          setResult(result)
+        } else {
+          console.error('Sandbox API error:', response.status, response.statusText)
+        }
+
+        setIsPreviewLoading(false)
+
+        // Add message only if we don't already have an assistant message
+        if (!lastMessage || lastMessage.role !== 'assistant') {
           const content: Array<MessageText | MessageCode | MessageImage> = [
             { type: 'text' as const, text: fragment?.commentary || '' },
-            { type: 'code' as const, text: object?.code || '' },
+            { type: 'code' as const, text: fragment?.code || '' },
           ]
 
-          if (!lastMessage || lastMessage.role !== 'assistant') {
-            addMessage({
-              role: 'assistant',
-              content,
-              object,
-            })
-          }
-        } else {
-          console.log('Skipping duplicate fragment')
+          addMessage({
+            role: 'assistant',
+            content,
+            object: fragment,
+          })
         }
+      } catch (error) {
+        console.error('onFinish processing error:', error)
+        setIsPreviewLoading(false)
       }
     },
-  })
+  }), [session?.user?.id, lastProcessedFragment, lastMessage])
+
+  const { object, submit, isLoading, stop, error } = useObject(useObjectConfig)
 
   const setMessage = useCallback((message: Partial<Message>, index?: number) => {
     setMessages((previousMessages) => {
