@@ -19,7 +19,7 @@ import { ExecutionResult } from '@/lib/types'
 import { DeepPartial } from 'ai'
 import { experimental_useObject as useObject } from 'ai/react'
 import { usePostHog } from 'posthog-js/react'
-import { SetStateAction, useEffect, useState } from 'react'
+import { SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 
 export default function Home() {
@@ -130,13 +130,13 @@ export default function Home() {
         })
       }
     }
-  }, [object])
+  }, [object, addMessage, lastMessage, setMessage])
 
   useEffect(() => {
     if (error) stop()
-  }, [error])
+  }, [error, stop])
 
-  function setMessage(message: Partial<Message>, index?: number) {
+  const setMessage = useCallback((message: Partial<Message>, index?: number) => {
     setMessages((previousMessages) => {
       const updatedMessages = [...previousMessages]
       updatedMessages[index ?? previousMessages.length - 1] = {
@@ -146,7 +146,7 @@ export default function Home() {
 
       return updatedMessages
     })
-  }
+  }, [])
 
   async function handleSubmitAuth(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -203,10 +203,10 @@ export default function Home() {
     })
   }
 
-  function addMessage(message: Message) {
+  const addMessage = useCallback((message: Message) => {
     setMessages((previousMessages) => [...previousMessages, message])
     return [...messages, message]
-  }
+  }, [messages])
 
   function handleSaveInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setChatInput(e.target.value)
