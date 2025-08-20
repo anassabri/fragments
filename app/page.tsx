@@ -42,7 +42,7 @@ export default function Home() {
   const [fragment, setFragment] = useState<DeepPartial<FragmentSchema>>()
   const [lastProcessedFragment, setLastProcessedFragment] = useState<DeepPartial<FragmentSchema>>()
   const [currentTab, setCurrentTab] = useState<'code' | 'fragment'>('code')
-  const [selectedTab, setSelectedTab] = useState<'code' | 'fragment'>('code')
+  const [selectedTab, setSelectedTab] = useState<'code' | 'fragment'>('fragment')
   const [isPreviewLoading, setIsPreviewLoading] = useState(false)
   const [isAuthDialogOpen, setAuthDialog] = useState(false)
   const [authView, setAuthView] = useState<ViewType>('sign_in')
@@ -288,7 +288,7 @@ export default function Home() {
       <div className="flex flex-1 overflow-hidden w-full">
         <div className="flex flex-1 overflow-hidden">
           <div className={`flex flex-col ${(fragment || result) ? 'w-1/5' : 'w-full'}`}>
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 overflow-y-auto">
               <div className="flex justify-center px-4">
                 <div className="w-full max-w-2xl">
                   <Chat
