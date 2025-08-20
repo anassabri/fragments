@@ -301,21 +301,23 @@ export default function Home() {
               </div>
               <div className="border-t">
                 <div className="flex items-center justify-center border-b p-2">
-                  <div className="flex items-center gap-2">
-                    <ChatPicker
-                      templates={templates}
-                      selectedTemplate={selectedTemplate}
-                      onSelectedTemplateChange={setSelectedTemplate}
-                      models={filteredModels}
-                      languageModel={languageModel}
-                      onLanguageModelChange={setLanguageModel}
-                    />
-                    <ChatSettings
-                      apiKeyConfigurable={true}
-                      baseURLConfigurable={true}
-                      languageModel={languageModel}
-                      onLanguageModelChange={setLanguageModel}
-                    />
+                  <div className="w-full max-w-2xl">
+                    <div className="flex items-center justify-center gap-2">
+                      <ChatPicker
+                        templates={templates}
+                        selectedTemplate={selectedTemplate}
+                        onSelectedTemplateChange={setSelectedTemplate}
+                        models={filteredModels}
+                        languageModel={languageModel}
+                        onLanguageModelChange={setLanguageModel}
+                      />
+                      <ChatSettings
+                        apiKeyConfigurable={true}
+                        baseURLConfigurable={true}
+                        languageModel={languageModel}
+                        onLanguageModelChange={setLanguageModel}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="flex justify-center p-4">

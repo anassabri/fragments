@@ -56,17 +56,7 @@ export function NavBar({
         </Link>
       </div>
       <div className="flex items-center gap-1 md:gap-4">
-        <Link 
-          href="Build App" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="hidden md:flex"
-        >
-          <Button variant="outline" size="sm" className="gap-2">
-            <GitHubLogoIcon className="h-4 w-4" />
-            
-          </Button>
-        </Link>
+
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
             <Button
