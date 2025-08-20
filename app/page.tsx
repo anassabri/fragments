@@ -300,7 +300,7 @@ export default function Home() {
                 />
               </div>
               <div className="border-t">
-                <div className="flex items-center justify-between border-b p-2">
+                <div className="flex items-center justify-center border-b p-2">
                   <div className="flex items-center gap-2">
                     <ChatPicker
                       templates={templates}
@@ -377,15 +377,7 @@ export default function Home() {
       <footer className="border-t bg-muted/30 py-4 px-6">
         <div className="max-w-7xl mx-auto flex items-center justify-center">
           <p className="text-sm text-muted-foreground">
-            Powered by{" "}
-            <a
-              href=""
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-primary hover:underline"
-            >
-              E2B
-            </a>
+            Build your dream app
           </p>
         </div>
       </footer>

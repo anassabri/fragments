@@ -49,9 +49,9 @@ export function NavBar({
         <Link href="/" className="flex items-center gap-3">
           <Logo width={32} height={32} />
           <div className="flex items-center gap-1">
-            <span className="text-xl font-semibold">Fragments</span>
-            <span className="text-sm text-muted-foreground">by</span>
-            <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">E2B</span>
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
+              Build Apps with AI
+            </span>
           </div>
         </Link>
       </div>
