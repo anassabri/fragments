@@ -285,7 +285,7 @@ export default function Home() {
         }}
         canUndo={messages.length > 0}
       />
-      <div className="flex flex-1 overflow-hidden max-w-7xl mx-auto w-full">
+      <div className="flex flex-1 overflow-hidden w-full">
         <div className="flex flex-1 overflow-hidden">
           <div className={`flex flex-col ${(fragment || result) ? 'w-1/5' : 'w-full'}`}>
             <div className="flex-1 overflow-hidden">
