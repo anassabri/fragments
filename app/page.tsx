@@ -289,15 +289,19 @@ export default function Home() {
         <div className="flex flex-1 flex-col overflow-hidden">
           <div className="flex flex-1 overflow-hidden">
             <div className={`flex flex-col ${(fragment || result) ? 'w-1/2' : 'w-full'}`}>
-              <div className="flex-1 overflow-hidden px-4">
-                <Chat
-                  messages={messages}
-                  isLoading={isLoading}
-                  setCurrentPreview={(preview) => {
-                    setFragment(preview.fragment)
-                    setResult(preview.result)
-                  }}
-                />
+              <div className="flex-1 overflow-hidden">
+                <div className="flex justify-center px-4">
+                  <div className="w-full max-w-2xl">
+                    <Chat
+                      messages={messages}
+                      isLoading={isLoading}
+                      setCurrentPreview={(preview) => {
+                        setFragment(preview.fragment)
+                        setResult(preview.result)
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="border-t">
                 <div className="flex items-center justify-center border-b p-2">
