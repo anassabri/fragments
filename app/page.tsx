@@ -286,90 +286,88 @@ export default function Home() {
         canUndo={messages.length > 0}
       />
       <div className="flex flex-1 overflow-hidden max-w-7xl mx-auto w-full">
-        <div className="flex flex-1 flex-col overflow-hidden">
-          <div className="flex flex-1 overflow-hidden">
-            <div className={`flex flex-col ${(fragment || result) ? 'w-1/2' : 'w-full'}`}>
-              <div className="flex-1 overflow-hidden">
-                <div className="flex justify-center px-4">
-                  <div className="w-full max-w-2xl">
-                    <Chat
-                      messages={messages}
-                      isLoading={isLoading}
-                      setCurrentPreview={(preview) => {
-                        setFragment(preview.fragment)
-                        setResult(preview.result)
-                      }}
+        <div className="flex flex-1 overflow-hidden">
+          <div className={`flex flex-col ${(fragment || result) ? 'w-1/2' : 'w-full'}`}>
+            <div className="flex-1 overflow-hidden">
+              <div className="flex justify-center px-4">
+                <div className="w-full max-w-2xl">
+                  <Chat
+                    messages={messages}
+                    isLoading={isLoading}
+                    setCurrentPreview={(preview) => {
+                      setFragment(preview.fragment)
+                      setResult(preview.result)
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-center">
+              <div className="w-full max-w-2xl border-t">
+                <div className="flex items-center justify-center border-b p-2">
+                  <div className="flex items-center justify-center gap-2">
+                    <ChatPicker
+                      templates={templates}
+                      selectedTemplate={selectedTemplate}
+                      onSelectedTemplateChange={setSelectedTemplate}
+                      models={filteredModels}
+                      languageModel={languageModel}
+                      onLanguageModelChange={setLanguageModel}
+                    />
+                    <ChatSettings
+                      apiKeyConfigurable={true}
+                      baseURLConfigurable={true}
+                      languageModel={languageModel}
+                      onLanguageModelChange={setLanguageModel}
                     />
                   </div>
                 </div>
               </div>
-              <div className="border-t">
-                <div className="flex items-center justify-center border-b p-2">
-                  <div className="w-full max-w-2xl">
-                    <div className="flex items-center justify-center gap-2">
-                      <ChatPicker
-                        templates={templates}
-                        selectedTemplate={selectedTemplate}
-                        onSelectedTemplateChange={setSelectedTemplate}
-                        models={filteredModels}
-                        languageModel={languageModel}
-                        onLanguageModelChange={setLanguageModel}
-                      />
-                      <ChatSettings
-                        apiKeyConfigurable={true}
-                        baseURLConfigurable={true}
-                        languageModel={languageModel}
-                        onLanguageModelChange={setLanguageModel}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="flex justify-center p-4">
-                  <div className="w-full max-w-2xl">
-                    <ChatInput
-                      retry={() => {}}
-                      isErrored={!!errorMessage}
-                      errorMessage={errorMessage}
-                      isLoading={isLoading}
-                      isRateLimited={isRateLimited}
-                      stop={stop}
-                      input={chatInput}
-                      handleInputChange={(e) => setChatInput(e.target.value)}
-                      handleSubmit={(e) => {
-                        e.preventDefault()
-                        handleSubmit(chatInput, files, selectedTemplate, languageModel)
-                        setChatInput('')
-                        setFiles([])
-                      }}
-                      isMultiModal={true}
-                      files={files}
-                      handleFileChange={setFiles}
-                    >
-                      <div />
-                    </ChatInput>
-                  </div>
-                </div>
+            </div>
+            <div className="flex justify-center p-4">
+              <div className="w-full max-w-2xl">
+                <ChatInput
+                  retry={() => {}}
+                  isErrored={!!errorMessage}
+                  errorMessage={errorMessage}
+                  isLoading={isLoading}
+                  isRateLimited={isRateLimited}
+                  stop={stop}
+                  input={chatInput}
+                  handleInputChange={(e) => setChatInput(e.target.value)}
+                  handleSubmit={(e) => {
+                    e.preventDefault()
+                    handleSubmit(chatInput, files, selectedTemplate, languageModel)
+                    setChatInput('')
+                    setFiles([])
+                  }}
+                  isMultiModal={true}
+                  files={files}
+                  handleFileChange={setFiles}
+                >
+                  <div />
+                </ChatInput>
               </div>
             </div>
-            {(fragment || result) && (
-              <div className="flex w-1/2 flex-col border-l">
-                <Preview
-                  teamID={session?.user?.user_metadata?.team_id}
-                  accessToken={session?.access_token}
-                  selectedTab={selectedTab}
-                  onSelectedTabChange={setSelectedTab}
-                  isChatLoading={isLoading}
-                  isPreviewLoading={isLoading}
-                  fragment={fragment}
-                  result={result}
-                  onClose={() => {
-                    setFragment(undefined)
-                    setResult(undefined)
-                  }}
-                />
-              </div>
-            )}
           </div>
+          {(fragment || result) && (
+            <div className="flex w-1/2 flex-col border-l">
+              <Preview
+                teamID={session?.user?.user_metadata?.team_id}
+                accessToken={session?.access_token}
+                selectedTab={selectedTab}
+                onSelectedTabChange={setSelectedTab}
+                isChatLoading={isLoading}
+                isPreviewLoading={isLoading}
+                fragment={fragment}
+                result={result}
+                onClose={() => {
+                  setFragment(undefined)
+                  setResult(undefined)
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
       {supabase && (
