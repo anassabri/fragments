@@ -197,6 +197,13 @@
       "multiModal": true
     },
     {
+      "id": "models/gemini-2.5-flash-lite-preview-09-2025",
+      "provider": "Google Generative AI",
+      "providerId": "google",
+      "name": "Gemini 2.5 Flash Lite Preview 09-2025",
+      "multiModal": true
+    },
+    {
       "id": "models/gemini-2.0-flash",
       "provider": "Google Generative AI",
       "providerId": "google",

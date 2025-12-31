@@ -31,7 +31,7 @@ export default function Home() {
   const [languageModel, setLanguageModel] = useLocalStorage<LLMModelConfig>(
     'languageModel',
     {
-      model: 'claude-sonnet-4-20250514',
+      model: 'models/gemini-2.5-flash-preview-05-20',
     },
   )
 
