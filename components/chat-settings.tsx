@@ -7,38 +7,71 @@ import {
 } from './ui/dropdown-menu'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
+import { Switch } from './ui/switch'
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip'
 import { LLMModelConfig } from '@/lib/models'
-import { Settings2 } from 'lucide-react'
+import { ExternalLink, Settings2 } from 'lucide-react'
 
 export function ChatSettings({
   apiKeyConfigurable,
   baseURLConfigurable,
   languageModel,
   onLanguageModelChange,
+  useMorphApply,
+  onUseMorphApplyChange,
 }: {
   apiKeyConfigurable: boolean
   baseURLConfigurable: boolean
   languageModel: LLMModelConfig
   onLanguageModelChange: (model: LLMModelConfig) => void
+  useMorphApply: boolean
+  onUseMorphApplyChange: (enabled: boolean) => void
 }) {
   return (
     <DropdownMenu>
-      <Tooltip delayDuration={0}>
-        <TooltipTrigger asChild>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="text-muted-foreground h-6 w-6 rounded-sm">
-              <Settings2 className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-        </TooltipTrigger>
-        <TooltipContent>LLM settings</TooltipContent>
-      </Tooltip>
+      <TooltipProvider>
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-muted-foreground h-6 w-6 rounded-sm"
+              >
+                <Settings2 className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+          </TooltipTrigger>
+          <TooltipContent>LLM settings</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <DropdownMenuContent align="start">
+        <div className="flex flex-col gap-2 px-2 py-2">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="morph-apply-toggle" className="text-sm font-medium">
+              Use Morph Apply
+            </Label>
+            <Switch
+              id="morph-apply-toggle"
+              checked={useMorphApply}
+              onCheckedChange={onUseMorphApplyChange}
+            />
+          </div>
+          <a
+            className="text-sm text-muted-foreground flex items-center gap-1 hover:underline"
+            target="_blank"
+            href="https://morphllm.com"
+          >
+            Learn more about Morph Apply <ExternalLink className="h-4 w-4" />
+            <span className="sr-only">Learn more about Morph Apply</span>
+          </a>
+        </div>
+        <DropdownMenuSeparator />
         {apiKeyConfigurable && (
           <>
             <div className="flex flex-col gap-2 px-2 py-2">
