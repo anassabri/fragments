@@ -31,7 +31,7 @@ export default function Home() {
   const [languageModel, setLanguageModel] = useLocalStorage<LLMModelConfig>(
     'languageModel',
     {
-      model: 'models/gemini-2.5-flash-preview-05-20',
+      model: 'gemini-2.5-flash-lite-preview-09-2025',
     },
   )
 
@@ -60,7 +60,7 @@ export default function Home() {
   })
 
   const defaultModel = filteredModels.find(
-    (model) => model.id === 'claude-sonnet-4-20250514',
+    (model) => model.id === 'gemini-2.5-flash-lite-preview-09-2025',
   ) || filteredModels[0]
 
   const currentModel = filteredModels.find(

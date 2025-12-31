@@ -1,6 +1,6 @@
 export function getTemplateIdSuffix(id: string) {
-  const isDev = process.env.NODE_ENV === 'development'
-  return isDev ? `${id}-dev` : id
+  // Use base template ID for free tier compatibility
+  return id
 }
 
 export function getTemplateId(id: string) {
