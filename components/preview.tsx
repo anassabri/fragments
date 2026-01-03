@@ -45,7 +45,7 @@ export function Preview({
     getTemplateId(result?.template!) !== 'code-interpreter-v1'
 
   return (
-    <div className="absolute md:relative z-10 top-0 left-0 shadow-xl md:rounded-tl-2xl md:rounded-bl-2xl md:border-l md:border-y bg-background h-full w-full overflow-auto">
+    <div className="absolute md:relative z-10 top-0 left-0 shadow-xl md:rounded-tl-2xl md:rounded-bl-2xl md:border-l md:border-y bg-background h-[80vh] md:h-full w-full overflow-auto">
       <Tabs
         value={selectedTab}
         onValueChange={(value) =>
