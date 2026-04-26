@@ -31,7 +31,7 @@ export default function Home() {
   const [languageModel, setLanguageModel] = useLocalStorage<LLMModelConfig>(
     'languageModel',
     {
-      model: 'gemini-2.5-flash-lite-preview-09-2025',
+      model: 'google:gemini-3.1-flash-lite-preview',
     },
   )
 
@@ -60,17 +60,20 @@ export default function Home() {
   })
 
   const defaultModel = filteredModels.find(
-    (model) => model.id === 'gemini-2.5-flash-lite-preview-09-2025',
+    (model) => model.id === 'gemini-3.1-flash-lite-preview' && model.providerId === 'google',
   ) || filteredModels[0]
 
   const currentModel = filteredModels.find(
-    (model) => model.id === languageModel.model,
+    (model) => `${model.providerId}:${model.id}` === languageModel.model,
   ) || defaultModel
 
-  // Update localStorage if stored model no longer exists
+  // Update localStorage if stored model no longer exists or is the old default
   useEffect(() => {
-    if (languageModel.model && !filteredModels.find((m) => m.id === languageModel.model)) {
-      setLanguageModel({ ...languageModel, model: defaultModel.id })
+    const isOldFormat = languageModel.model && !languageModel.model.includes(':')
+    const isMissing = languageModel.model && !filteredModels.find((m) => `${m.providerId}:${m.id}` === languageModel.model)
+    const isOldDefault = languageModel.model === 'gemini-2.5-flash-lite-preview-09-2025'
+    if (!languageModel.model || isOldFormat || isMissing || isOldDefault) {
+      setLanguageModel({ ...languageModel, model: `${defaultModel.providerId}:${defaultModel.id}` })
     }
   }, [languageModel.model])
   const currentTemplate =

@@ -148,6 +148,13 @@
       "multiModal": true
     },
     {
+      "id": "gemini-3.1-flash-lite-preview",
+      "provider": "Google Vertex AI",
+      "providerId": "vertex",
+      "name": "Gemini 3.1 Flash-Lite Preview",
+      "multiModal": true
+    },
+    {
       "id": "gemini-2.5-flash-preview-05-20",
       "provider": "Google Vertex AI",
       "providerId": "vertex",
@@ -194,6 +201,13 @@
       "provider": "Google Generative AI",
       "providerId": "google",
       "name": "Gemini 3 Flash Preview",
+      "multiModal": true
+    },
+    {
+      "id": "gemini-3.1-flash-lite-preview",
+      "provider": "Google Generative AI",
+      "providerId": "google",
+      "name": "Gemini 3.1 Flash-Lite Preview",
       "multiModal": true
     },
     {

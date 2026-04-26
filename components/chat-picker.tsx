@@ -88,7 +88,7 @@ export function ChatPicker({
               <SelectGroup key={provider}>
                 <SelectLabel>{provider}</SelectLabel>
                 {models?.map((model) => (
-                  <SelectItem key={model.id} value={model.id}>
+                  <SelectItem key={`${model.providerId}:${model.id}`} value={`${model.providerId}:${model.id}`}>
                     <div className="flex items-center space-x-2">
                       <Image
                         className="flex"
